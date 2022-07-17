@@ -1,193 +1,339 @@
-const start_btn = document.querySelector(".start_btn button");
-const info_box = document.querySelector(".info_box");
-const exit_btn = info_box.querySelector(".buttons .quit");
-const continue_btn = info_box.querySelector(".buttons .restart");
-const quiz_box = document.querySelector(".quiz_box");
-const result_box = document.querySelector(".result_box");
-const option_list = document.querySelector(".option_list");
-const time_line = document.querySelector("header .time_line");
-const timeText = document.querySelector(".timer .time_left_txt");
-const timeCount = document.querySelector(".timer .timer_sec");
-// if startQuiz button clicked
-start_btn.onclick = ()=>{
-    info_box.classList.add("activeInfo"); //show info box
+var startQuizBtn = document.getElementById("startquizbtn");
+var homepage = document.querySelector("#homepage");
+var body = document.querySelector("*");
+var firstcard = document.querySelector("#card1");
+var secondcard = document.querySelector("#card2");
+var thirdcard = document.querySelector("#card3");
+var fourthcard = document.querySelector("#card4");
+var fifthcard = document.querySelector("#card5");
+var highscores = document.querySelector("#scoreboard");
+var test = document.getElementById("test");
+var submitForm = $('#submitform');
+var highScoreLog = $('#scores');
+var submit = document.getElementById("submit");
+var clearhs = document.getElementById("clearhigh");
+
+
+// Timer
+var timer = document.getElementById("time");
+var secondsLeft = 60;
+var timerInterval;
+startQuizBtn.addEventListener("click", setTimer);
+function setTimer() {
+        timerInterval = setInterval(function() {
+        secondsLeft--;
+        timer.textContent = "Time: " + secondsLeft;
+
+        if (secondsLeft <= 0) {
+            clearInterval(timerInterval);
+            highscorePage ()
+        }
+    }, 1000);}
+
+init ();
+function init () {
+    highscores.setAttribute("style", "display:none");
+    homepage.setAttribute("style", "display:inline-block");
+    startQuizBtn.addEventListener("click", chooseAnswer1);
 }
-// if exitQuiz button clicked
-exit_btn.onclick = ()=>{
-    info_box.classList.remove("activeInfo"); //hide info box
+
+function chooseAnswer1() {
+homepage.setAttribute("style", "display:none");
+firstcard.setAttribute("style", "display:inline-block");
+
+var answer1Btn1 = document.querySelector(".answer1btn1");
+var answer2Btn1 = document.querySelector(".answer2btn1");
+var answer3Btn1 = document.querySelector(".answer3btn1");
+var answer4Btn1 = document.querySelector(".answer4btn1");
+
+answer1Btn1.addEventListener("click", myfunction1);
+answer2Btn1.addEventListener("click", myfunction2);
+answer3Btn1.addEventListener("click", myfunction3);
+answer4Btn1.addEventListener("click", myfunction4);
+
+function myfunction1() {
+if (answer1Btn1 = "Number" ) {
+    test.textContent = "Wrong!";
+    secondsLeft -= 10;
+    return chooseAnswer2 ();
 }
-// if continueQuiz button clicked
-continue_btn.onclick = ()=>{
-    info_box.classList.remove("activeInfo"); //hide info box
-    quiz_box.classList.add("activeQuiz"); //show quiz box
-    showQuetions(0); //calling showQestions function
-    queCounter(1); //passing 1 parameter to queCounter
-    startTimer(15); //calling startTimer function
-    startTimerLine(0); //calling startTimerLine function
 }
-let timeValue =  15;
-let que_count = 0;
-let que_numb = 1;
-let userScore = 0;
-let counter;
-let counterLine;
-let widthValue = 0;
-const restart_quiz = result_box.querySelector(".buttons .restart");
-const quit_quiz = result_box.querySelector(".buttons .quit");
-// if restartQuiz button clicked
-restart_quiz.onclick = ()=>{
-    quiz_box.classList.add("activeQuiz"); //show quiz box
-    result_box.classList.remove("activeResult"); //hide result box
-    timeValue = 15; 
-    que_count = 0;
-    que_numb = 1;
-    userScore = 0;
-    widthValue = 0;
-    showQuetions(que_count); //calling showQestions function
-    queCounter(que_numb); //passing que_numb value to queCounter
-    clearInterval(counter); //clear counter
-    clearInterval(counterLine); //clear counterLine
-    startTimer(timeValue); //calling startTimer function
-    startTimerLine(widthValue); //calling startTimerLine function
-    timeText.textContent = "Time Left"; //change the text of timeText to Time Left
-    next_btn.classList.remove("show"); //hide the next button
+function myfunction2() {
+if (answer2Btn1 = "String") {
+    test.textContent = "Wrong!";
+    secondsLeft -= 10;
+    return chooseAnswer2 ();
 }
-// if quitQuiz button clicked
-quit_quiz.onclick = ()=>{
-    window.location.reload(); //reload the current window
 }
-const next_btn = document.querySelector("footer .next_btn");
-const bottom_ques_counter = document.querySelector("footer .total_que");
-// if Next Que button clicked
-next_btn.onclick = ()=>{
-    if(que_count < questions.length - 1){ //if question count is less than total question length
-        que_count++; //increment the que_count value
-        que_numb++; //increment the que_numb value
-        showQuetions(que_count); //calling showQestions function
-        queCounter(que_numb); //passing que_numb value to queCounter
-        clearInterval(counter); //clear counter
-        clearInterval(counterLine); //clear counterLine
-        startTimer(timeValue); //calling startTimer function
-        startTimerLine(widthValue); //calling startTimerLine function
-        timeText.textContent = "Time Left"; //change the timeText to Time Left
-        next_btn.classList.remove("show"); //hide the next button
-    }else{
-        clearInterval(counter); //clear counter
-        clearInterval(counterLine); //clear counterLine
-        showResult(); //calling showResult function
-    }
+function myfunction3() {
+if (answer3Btn1 = "Document") {
+    test.textContent = "Correct!"
+    return chooseAnswer2 ();
 }
-// getting questions and options from array
-function showQuetions(index){
-    const que_text = document.querySelector(".que_text");
-    //creating a new span and div tag for question and option and passing the value using array index
-    let que_tag = '<span>'+ questions[index].numb + ". " + questions[index].question +'</span>';
-    let option_tag = '<div class="option"><span>'+ questions[index].options[0] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[1] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[2] +'</span></div>'
-    + '<div class="option"><span>'+ questions[index].options[3] +'</span></div>';
-    que_text.innerHTML = que_tag; //adding new span tag inside que_tag
-    option_list.innerHTML = option_tag; //adding new div tag inside option_tag
+}
+
+function myfunction4() {
+if (answer4Btn1 = "Boolean") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer2 (); 
+ }
+}
+}
+// Question 1
+
+//  Question 2
+function chooseAnswer2() {
+firstcard.setAttribute("style", "display:none");
+secondcard.setAttribute("style", "display:inline-block");
+
+var answer1Btn2 = document.querySelector(".answer1btn2");
+var answer2Btn2 = document.querySelector(".answer2btn2");
+var answer3Btn2 = document.querySelector(".answer3btn2");
+var answer4Btn2 = document.querySelector(".answer4btn2");
+
+answer1Btn2.addEventListener("click", myFunction1);
+answer2Btn2.addEventListener("click", myFunction2);
+answer3Btn2.addEventListener("click", myFunction3);
+answer4Btn2.addEventListener("click", myFunction4);
+
+function myFunction1() {
+if (answer1Btn2 = "JS" ) {
+    test.textContent = "Correct!"
+    return chooseAnswer3 ();
+}
+}
+function myFunction2() {
+if (answer2Btn2 = "JAVA") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer3 ();
+}
+}
+function myFunction3() {
+if (answer3Btn2 = "JST") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer3 ();
+}
+}
+
+function myFunction4() {
+if (answer4Btn2 = "J") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer3 ();
+}
+}
+}
+//  Question 2
+
+// Question 3
+function chooseAnswer3() {
+secondcard.setAttribute("style", "display:none");
+thirdcard.setAttribute("style", "display:inline-block");
+
+var answer1Btn3 = document.querySelector(".answer1btn3");
+var answer2Btn3 = document.querySelector(".answer2btn3");
+var answer3Btn3 = document.querySelector(".answer3btn3");
+var answer4Btn3 = document.querySelector(".answer4btn3");
+
+answer1Btn3.addEventListener("click", myFunction1);
+answer2Btn3.addEventListener("click", myFunction2);
+answer3Btn3.addEventListener("click", myFunction3);
+answer4Btn3.addEventListener("click", myFunction4);
+
+function myFunction1() {
+if (answer1Btn3 = "Locate a specific class in the HTML" ) {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer4 ();
+}
+}
+function myFunction2() {
+if (answer2Btn3 = "Modify the CSS") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer4 ();
+}
+}
+function myFunction3() {
+if (answer3Btn3 = "To validate the click of a button") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer4 ();
+}
+}
+
+function myFunction4() {
+if (answer4Btn3 = "Locate a specific ID in the HTML") {
+    test.textContent = "Correct!"
+    return chooseAnswer4 ();
+}
+}
+}
+
+
+// Question 4
+function chooseAnswer4() {
+thirdcard.setAttribute("style", "display:none");
+fourthcard.setAttribute("style", "display:inline-block");
+
+var answer1Btn4 = document.querySelector(".answer1btn4");
+var answer2Btn4 = document.querySelector(".answer2btn4");
+var answer3Btn4 = document.querySelector(".answer3btn4");
+var answer4Btn4 = document.querySelector(".answer4btn4");
     
-    const option = option_list.querySelectorAll(".option");
-    // set onclick attribute to all available options
-    for(i=0; i < option.length; i++){
-        option[i].setAttribute("onclick", "optionSelected(this)");
-    }
-}
-// creating the new div tags which for icons
-let tickIconTag = '<div class="icon tick"><i class="fas fa-check"></i></div>';
-let crossIconTag = '<div class="icon cross"><i class="fas fa-times"></i></div>';
-//if user clicked on option
-function optionSelected(answer){
-    clearInterval(counter); //clear counter
-    clearInterval(counterLine); //clear counterLine
-    let userAns = answer.textContent; //getting user selected option
-    let correcAns = questions[que_count].answer; //getting correct answer from array
-    const allOptions = option_list.children.length; //getting all option items
+answer1Btn4.addEventListener("click", myFunction1);
+answer2Btn4.addEventListener("click", myFunction2);
+answer3Btn4.addEventListener("click", myFunction3);
+answer4Btn4.addEventListener("click", myFunction4);
     
-    if(userAns == correcAns){ //if user selected option is equal to array's correct answer
-        userScore += 1; //upgrading score value with 1
-        answer.classList.add("correct"); //adding green color to correct selected option
-        answer.insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to correct selected option
-        console.log("Correct Answer");
-        console.log("Your correct answers = " + userScore);
-    }else{
-        answer.classList.add("incorrect"); //adding red color to correct selected option
-        answer.insertAdjacentHTML("beforeend", crossIconTag); //adding cross icon to correct selected option
-        console.log("Wrong Answer");
-        for(i=0; i < allOptions; i++){
-            if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer 
-                option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                console.log("Auto selected correct answer.");
-            }
-        }
-    }
-    for(i=0; i < allOptions; i++){
-        option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-    }
-    next_btn.classList.add("show"); //show the next button if user selected any option
+function myFunction1() {
+if (answer1Btn4 = "Locate a specific class in the HTML" ) {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer5 ();
 }
-function showResult(){
-    info_box.classList.remove("activeInfo"); //hide info box
-    quiz_box.classList.remove("activeQuiz"); //hide quiz box
-    result_box.classList.add("activeResult"); //show result box
-    const scoreText = result_box.querySelector(".score_text");
-    if (userScore > 3){ // if user scored more than 3
-        //creating a new span tag and passing the user score number and total question number
-        let scoreTag = '<span>and congrats! , You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;  //adding new span tag inside score_Text
-    }
-    else if(userScore > 1){ // if user scored more than 1
-        let scoreTag = '<span>and nice , You got <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
-    else{ // if user scored less than 1
-        let scoreTag = '<span>and sorry , You got only <p>'+ userScore +'</p> out of <p>'+ questions.length +'</p></span>';
-        scoreText.innerHTML = scoreTag;
-    }
 }
-function startTimer(time){
-    counter = setInterval(timer, 1000);
-    function timer(){
-        timeCount.textContent = time; //changing the value of timeCount with time value
-        time--; //decrement the time value
-        if(time < 9){ //if timer is less than 9
-            let addZero = timeCount.textContent; 
-            timeCount.textContent = "0" + addZero; //add a 0 before time value
-        }
-        if(time < 0){ //if timer is less than 0
-            clearInterval(counter); //clear counter
-            timeText.textContent = "Time Off"; //change the time text to time off
-            const allOptions = option_list.children.length; //getting all option items
-            let correcAns = questions[que_count].answer; //getting correct answer from array
-            for(i=0; i < allOptions; i++){
-                if(option_list.children[i].textContent == correcAns){ //if there is an option which is matched to an array answer
-                    option_list.children[i].setAttribute("class", "option correct"); //adding green color to matched option
-                    option_list.children[i].insertAdjacentHTML("beforeend", tickIconTag); //adding tick icon to matched option
-                    console.log("Time Off: Auto selected correct answer.");
-                }
-            }
-            for(i=0; i < allOptions; i++){
-                option_list.children[i].classList.add("disabled"); //once user select an option then disabled all options
-            }
-            next_btn.classList.add("show"); //show the next button if user selected any option
-        }
+function myFunction2() {
+if (answer2Btn4 = "Modify the CSS") {
+    test.textContent = "Correct!"
+    return chooseAnswer5 ();
+}
+}
+function myFunction3() {
+if (answer3Btn4 = "To validate the click of a button") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer5 ();
+}
+}
+    
+function myFunction4() {
+if (answer4Btn4 = "Locate a specific ID in the HTML") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return chooseAnswer5 ();
+}
+}
+}
+// End Question 4
+
+// Begin Question 5
+function chooseAnswer5() {
+fourthcard.setAttribute("style", "display:none");
+fifthcard.setAttribute("style", "display:inline-block");
+
+var answer1Btn5 = document.querySelector(".answer1btn5");
+var answer2Btn5 = document.querySelector(".answer2btn5");
+var answer3Btn5 = document.querySelector(".answer3btn5");
+var answer4Btn5 = document.querySelector(".answer4btn5");
+    
+answer1Btn5.addEventListener("click", myFunction1);
+answer2Btn5.addEventListener("click", myFunction2);
+answer3Btn5.addEventListener("click", myFunction3);
+answer4Btn5.addEventListener("click", myFunction4);
+    
+function myFunction1() {
+if (answer1Btn5 = "Locate a specific class in the HTML" ) {
+    test.textContent = "Correct!"
+    return highscorePage ();
+}
+}
+function myFunction2() {
+if (answer2Btn5 = "Modify the CSS") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return highscorePage ();
+}
+}
+function myFunction3() {
+if (answer3Btn5 = "To validate the click of a button") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return highscorePage ();
+}
+}
+    
+function myFunction4() {
+if (answer4Btn5 = "Locate a specific ID in the HTML") {
+    test.textContent = "Wrong!"
+    secondsLeft -= 10;
+    return highscorePage ();}}
+}
+// End Question 5
+
+// Setup page for highscore content
+function highscorePage () {
+firstcard.setAttribute("style", "display:none");
+secondcard.setAttribute("style", "display:none");
+thirdcard.setAttribute("style", "display:none");
+fourthcard.setAttribute("style", "display:none");
+fifthcard.setAttribute("style", "display:none");
+highscores.setAttribute("style", "display:inline-block");
+test.setAttribute("Style", "display:none");
+timer.setAttribute("Style", "display:none")
+clearInterval(timerInterval);
+scoreInput();
+}
+// End setup for highscore content
+
+// Begin function for scoring
+function scoreInput() {
+    if (secondsLeft < 0) {
+        secondsLeft = 0}
+var score = document.getElementById("score");
+    score.textContent = "Your final score is " + secondsLeft + "!";
+
+}
+// End function for scoring
+
+
+
+// Variables and Event Listener for Submit Button
+submit = document.addEventListener("submit", storeScore)
+clearhs.addEventListener("click", clear);
+// End of Variables and Event Listener for Submit Button
+
+// Renders sscore and calls from local storage
+function displayPrevHigh(highscores) {
+    for (let index = 0; index < highscores.length; index++) {
+    highScoreLog.append('<li>' + highscores[index].name + "  |  " + highscores[index].score + '</li>');
+    var form = document.querySelector("form");
+    var high = document.getElementById("high")
+    var highbox = document.getElementById("highbox")
+    form.setAttribute("style", "display:none;")
+    high.setAttribute("style", "margin-top: 25px")
+    scorebox.setAttribute("style", "display: inline-block;")
+}
+}
+// Renders sscore and calls from local storage
+
+
+// Function for storing score in Local Storage
+function storeScore (event) {
+    event.preventDefault();
+    var highscores = JSON.parse(window.localStorage.getItem("highscore")) || []
+    var initials = document.querySelector("#initials")
+    
+    var highScoreInput = {
+        name: initials.value,
+        score: secondsLeft};
+        highscores.push(highScoreInput)
+    window.localStorage.setItem("highscore", JSON.stringify(highscores));
+
+displayPrevHigh(highscores);
     }
+// End for storing Score.
+
+
+
+// Code for Clear HS Button
+var clearList = document.querySelector(".clearlist")
+function clear() {
+    clearList.setAttribute("style", "display: none;")
+    clearhs.setAttribute("style", "margin-top: 63px;")
+    localStorage.clear();
 }
-function startTimerLine(time){
-    counterLine = setInterval(timer, 29);
-    function timer(){
-        time += 1; //upgrading time value with 1
-        time_line.style.width = time + "px"; //increasing width of time_line with px by time value
-        if(time > 549){ //if time value is greater than 549
-            clearInterval(counterLine); //clear counterLine
-        }
-    }
-}
-function queCounter(index){
-    //creating a new span tag and passing the question number and total question
-    let totalQueCounTag = '<span><p>'+ index +'</p> of <p>'+ questions.length +'</p> Questions</span>';
-    bottom_ques_counter.innerHTML = totalQueCounTag;  //adding new span tag inside bottom_ques_counter
-}
+
